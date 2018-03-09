@@ -15,7 +15,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Alert
+  Alert,
+  Button
 } from 'react-native';
 
 type Props = {};
@@ -32,34 +33,46 @@ export default class App extends Component<Props> {
 
 // 状态机 
   state={
-    title:'默认值'
+    title:'默认值',
+    person:'张三'
   }
 
-// ViewWillAppear 视图即将显示的时候
-  componentWillMount(){
-    // Alert.alert('componentWillMount')
+  static defaultProps={
+    age:18
   }
 
-// 刷新完UI之后就来了 相当于iOS的ViewDidLoad，这个函数今后用来发送网络请求（第一次加载的数据）
-  componentDidMount(){
-        // Alert.alert('componentDidMount')
-  }
+// // ViewWillAppear 视图即将显示的时候
+//   componentWillMount(){
+//     // Alert.alert('componentWillMount')
+//   }
 
-// 视图点击后数据刷新UI成功之后将会回调 第一次加载UI的时候不会来
-  componentDidUpdate(){
-    Alert.alert('componentDidUpdate')
-  }
+// // 刷新完UI之后就来了 相当于iOS的ViewDidLoad，这个函数今后用来发送网络请求（第一次加载的数据）
+//   componentDidMount(){
+//         // Alert.alert('componentDidMount')
+//   }
 
-// 是一个异步函数 也就是输如果快速多次改变state的值，并不会很快的刷新
+// // 视图点击后数据刷新UI成功之后将会回调 第一次加载UI的时候不会来
+//   componentDidUpdate(){
+//     // Alert.alert('componentDidUpdate')
+//   }
+
+// // 是一个异步函数 也就是说如果快速多次改变state的值，并不会很快的刷新
+// // 按钮响应有两种，一种通过直接给方法、另一种通过闭包来实现
+// // 直接给方法()=>this.click('点击了按钮')  闭包实现btnClick
   render() {
     return (
-      <View style={styles.container}>
+      <View ref="topView" style={styles.container}>
 
       <TouchableOpacity onPress={()=>this.click('点击')}>
-      {Alert.alert('render 来了')}
         <Text>{this.state.title}</Text>
+        <Text>{this.props.age}</Text>
       </TouchableOpacity>
 
+        <Button
+          title="我是一个Button"
+          color="red"
+          onPress={()=>this.click('点击')}
+        />
       </View>
     );
   }
@@ -70,6 +83,11 @@ export default class App extends Component<Props> {
     })
   }
 
+}
+
+// 闭包回调方法
+const btnClick = ()=> {
+  Alert.alert('哥们来了')
 }
 
 // const instructions = Platform.select({
